@@ -188,6 +188,10 @@ jobs:
       - name: Run Smoke Tests
         run: npm run test:smoke
 
+      - name: Set Permissions for External System Contract Tests script
+        # Allow execute pipeline script
+        run: chmod 755 ./automated_testing/external-system-contracts-test.sh
+
       - name: Run External System Contract Tests
         run: ./automated_testing/external-system-contracts-test.sh
 
