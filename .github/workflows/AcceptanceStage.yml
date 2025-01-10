@@ -79,6 +79,16 @@ jobs:
           ])
           EOF
 
+      - name: Install WireMock
+        run: |
+          echo "Installing WireMock..."
+          brew install wiremock-standalone
+
+      - name: Start WireMock
+        run: |
+          wiremock --local-response-templating --port 8080 &
+          sleep 5
+
       - name: Set Permissions
         # Allow execute pipeline script
         run: chmod 755 pipeline.sh
@@ -174,6 +184,11 @@ jobs:
           echo "Stop MongoDB..."
           brew services stop mongodb-community@6.0
 
+      - name: Stop WireMock
+        run: |
+          echo "Stop WireMock..."
+          pkill -f wiremock
+
   acceptance_stage_badge:
     name: Create status badge for workflow
     runs-on: ubuntu-latest
@@ -185,17 +200,17 @@ jobs:
         uses: RubbaBoy/BYOB@v1.3.0
         with:
           NAME: acceptance_stage
-          LABEL: 'Acceptance Stage'
-          STATUS: 'Success'
+          LABEL: "Acceptance Stage"
+          STATUS: "Success"
           COLOR: green
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-  
+
       - name: E2E Environment badge (Failure)
         if: ${{ contains(needs.*.result, 'failure') }}
         uses: RubbaBoy/BYOB@v1.3.0
         with:
           NAME: acceptance_stage
-          LABEL: 'Acceptance Stage'
-          STATUS: 'Failure'
+          LABEL: "Acceptance Stage"
+          STATUS: "Failure"
           COLOR: red
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}

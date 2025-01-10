@@ -1,0 +1,14 @@
+{
+  "request": {
+    "method": "GET",
+    "url": "/api/theme"
+  },
+  "response": {
+    "status": 200,
+    "body": "{ \"theme\": \"{{pickRandom 'dark' 'light'}}\" }",
+    "headers": {
+      "Content-Type": "application/json"
+    },
+    "transformers": ["response-template"]
+  }
+}
