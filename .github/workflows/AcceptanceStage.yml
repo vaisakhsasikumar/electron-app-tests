@@ -189,7 +189,7 @@ jobs:
         run: npm run test:smoke
 
       - name: Run External System Contract Tests
-        run: npm run test:external
+        run: ./external-system-contracts-test.sh
 
       - name: Run E2E Tests
         run: npm run test:e2e
