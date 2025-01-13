@@ -1,5 +1,5 @@
 /// <reference types="wdio-electron-service" />
-const theme = process.env.WDIO_THEME || "light"; // Default to 'light' if not set
+const theme = process.env.WDIO_THEME || "light-debug"; // Default to 'light' if not set
 
 export const config: WebdriverIO.Config = {
   //
