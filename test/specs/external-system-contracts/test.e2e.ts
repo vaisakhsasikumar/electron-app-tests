@@ -7,8 +7,7 @@ describe("External System Contracts Test", () => {
 
     console.log(`Theme returned by the stub: ${theme}`);
 
-    // Set the theme using the ipcRenderer exposed method
-    await browser.execute((isDark: boolean) => {
+    await browser.execute((isDark) => {
       //@ts-ignore
       window.ipcRenderer.send("set-dark-theme", isDark === "dark"); // Send theme boolean to the main process
       //@ts-ignore

@@ -1,7 +1,9 @@
 /// <reference types="wdio-electron-service" />
 const theme = process.env.WDIO_THEME || "light"; // Default to 'light' if not set
 
-console.log(`Theme const inside wdio config: ${process.env.WDIO_THEME}`);
+console.log(`Theme const inside wdio config: ${theme}`);
+
+process.env.TEST = "true";
 
 export const config: WebdriverIO.Config = {
   //
@@ -58,10 +60,7 @@ export const config: WebdriverIO.Config = {
     {
       browserName: "electron",
       "goog:chromeOptions": {
-        args:
-          theme === "dark"
-            ? ["headless", "disable-gpu", "force-dark-mode"]
-            : ["headless", "disable-gpu"],
+        args: ["headless", "disable-gpu"],
       },
       "wdio:electronServiceOptions": {
         appBinaryPath:
