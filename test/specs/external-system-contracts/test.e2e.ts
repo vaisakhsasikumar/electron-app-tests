@@ -3,27 +3,7 @@ import { assert } from "chai";
 
 describe("External System Contracts Test", () => {
   it("should check that application theme corresponds to the OS theme", async () => {
-    const STUB_URL = "http://localhost:8080/api/theme";
-
-    // Fetch the theme from the stub using fetch
-    const response = await browser.call(async () =>
-      fetch(STUB_URL).then((res) => {
-        if (!res.ok) {
-          throw new Error(
-            `Failed to fetch stub: ${res.status} ${res.statusText}`
-          );
-        }
-        return res.json();
-      })
-    );
-
-    const theme = response.theme;
-
-    // Validate the theme value
-    assert.isTrue(
-      theme === "dark" || theme === "light",
-      `Invalid theme returned from stub: ${theme}`
-    );
+    const theme = process.env.WDIO_THEME;
 
     console.log(`Theme returned by the stub: ${theme}`);
 
