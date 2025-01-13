@@ -36,17 +36,6 @@ describe("External System Contracts Test", () => {
     if (theme === "dark") {
       assert.include(
         rootClassList,
-        "dark-theme",
-        "The root element does not have the 'dark-theme' class as expected."
-      );
-      assert.notInclude(
-        rootClassList,
-        "light-theme",
-        "The root element incorrectly has the 'light-theme' class when it should not."
-      );
-    } else {
-      assert.include(
-        rootClassList,
         "light-theme",
         "The root element does not have the 'light-theme' class as expected."
       );
@@ -54,6 +43,17 @@ describe("External System Contracts Test", () => {
         rootClassList,
         "dark-theme",
         "The root element incorrectly has the 'dark-theme' class when it should not."
+      );
+    } else {
+      assert.include(
+        rootClassList,
+        "dark-theme",
+        "The root element does not have the 'dark-theme' class as expected."
+      );
+      assert.notInclude(
+        rootClassList,
+        "light-theme",
+        "The root element incorrectly has the 'light-theme' class when it should not."
       );
     }
   });
