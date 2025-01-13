@@ -7,6 +7,12 @@ describe("External System Contracts Test", () => {
 
     console.log(`Theme returned by the stub: ${theme}`);
 
+    // Set the theme before running any checks
+    await browser.execute((themeSource) => {
+      const { nativeTheme } = require("@electron/remote");
+      nativeTheme.themeSource = themeSource;
+    }, theme);
+
     // Verify the class on the root element
     const rootClassList = await browser.execute(() => {
       const root = document.documentElement; // Select the root element
