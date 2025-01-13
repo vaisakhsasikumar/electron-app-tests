@@ -7,10 +7,11 @@ describe("External System Contracts Test", () => {
 
     console.log(`Theme returned by the stub: ${theme}`);
 
-    // Set the theme before running any checks
-    await browser.execute((themeSource) => {
-      const { nativeTheme } = require("@electron/remote");
-      nativeTheme.themeSource = themeSource;
+    // Set the theme using the ipcRenderer exposed method
+    await browser.execute((isDark: boolean) => {
+      //@ts-ignore
+      window.ipcRenderer.send("set-dark-theme", isDark === "dark"); // Send theme boolean to the main process
+      //@ts-ignore
     }, theme);
 
     // Verify the class on the root element
