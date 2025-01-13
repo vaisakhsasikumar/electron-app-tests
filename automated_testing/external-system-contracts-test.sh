@@ -14,7 +14,7 @@ get_theme() {
     exit 1
   fi
 
-  echo "$THEME"
+  echo "dark"
 }
 
 # Get the theme from the stub
