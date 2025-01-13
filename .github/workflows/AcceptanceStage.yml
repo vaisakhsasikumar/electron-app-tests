@@ -22,26 +22,48 @@ jobs:
           response=$(gh api /repos/vaisakhsasikumar/my-electron-app/actions/workflows/nightlyBuild.yml/runs?status=success&per_page=1)
           run_id=$(echo "$response" | jq -r '.workflow_runs[0].id | tonumber')
           echo "run_id=$run_id" >> $GITHUB_OUTPUT
+    
+  cache-artifact:
+    name: Cache Artifact
+    runs-on: macos-latest
+    needs: fetch_run_id
+    steps:
+      - name: Trying restore artifact cache
+        uses: actions/cache/restore@v4
+        id: cache-artifact-restore
+        with:
+          path: ./MongoDB Query Executor
+          key: ${{ runner.os }}-cache-artifact-${{needs.fetch_run_id.outputs.run_id}}
+      - name: Download Artifacts
+        if: steps.cache-artifact-restore.outputs.cache-hit != 'true'
+        uses: actions/download-artifact@v4
+        with:
+          github-token: ${{ secrets.GITHUB_TOKEN }}
+          repository: vaisakhsasikumar/my-electron-app
+          run-id: ${{needs.fetch_run_id.outputs.run_id}}
+      - name: Save Cache
+        id: cache-artifact-save
+        if: steps.cache-artifact-restore.outputs.cache-hit != 'true'
+        uses: actions/cache/save@v4
+        with:
+          path: ./MongoDB Query Executor
+          key: ${{ runner.os }}-cache-artifact-${{needs.fetch_run_id.outputs.run_id}}
 
   acceptance_env:
     name: Deploying artifacts to Acceptance Environment and run tests
     runs-on: macos-latest
     env:
       GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-    needs: fetch_run_id
+    needs: [fetch_run_id, cache-artifact]
     steps:
       - name: Github checkout
         uses: actions/checkout@v4
 
-      - name: Install jq
-        run: brew install jq
-
-      - name: Download Artifacts
-        uses: actions/download-artifact@v4
+      - name: Restore Artifacts
+        uses: actions/cache/restore@v4
         with:
-          github-token: ${{ secrets.GITHUB_TOKEN }}
-          repository: vaisakhsasikumar/my-electron-app
-          run-id: ${{needs.fetch_run_id.outputs.run_id}}
+          path: ./MongoDB Query Executor
+          key: ${{ runner.os }}-cache-artifact-${{needs.fetch_run_id.outputs.run_id}}
 
       - name: Use Node.js
         uses: actions/setup-node@v4
@@ -90,7 +112,6 @@ jobs:
           sleep 5
 
       - name: Set Permissions
-        # Allow execute pipeline script
         run: chmod 755 pipeline.sh
 
       - name: Run pipeline.sh
@@ -117,20 +138,17 @@ jobs:
     env:
       GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
     runs-on: macos-latest
-    needs: fetch_run_id
+    needs: [fetch_run_id, cache-artifact]
     steps:
       - name: Github checkout
         uses: actions/checkout@v4
 
-      - name: Install jq
-        run: brew install jq
 
-      - name: Download Artifacts
-        uses: actions/download-artifact@v4
+      - name: Restore Artifacts
+        uses: actions/cache/restore@v4
         with:
-          github-token: ${{ secrets.GITHUB_TOKEN }}
-          repository: vaisakhsasikumar/my-electron-app
-          run-id: ${{needs.fetch_run_id.outputs.run_id}}
+          path: ./MongoDB Query Executor
+          key: ${{ runner.os }}-cache-artifact-${{needs.fetch_run_id.outputs.run_id}}
 
       - name: Use Node.js
         uses: actions/setup-node@v4
@@ -179,7 +197,6 @@ jobs:
           sleep 5
 
       - name: Set Permissions
-        # Allow execute pipeline script
         run: chmod 755 pipeline.sh
 
       - name: Run pipeline.sh
