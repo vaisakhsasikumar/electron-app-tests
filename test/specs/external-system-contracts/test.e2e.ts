@@ -33,28 +33,36 @@ describe("External System Contracts Test", () => {
       return root.className.split(/\s+/); // Return the list of classes as an array
     });
 
-    if (theme === "dark") {
-      assert.include(
-        rootClassList,
-        "light-theme",
-        "The root element does not have the 'light-theme' class as expected."
-      );
-      assert.notInclude(
-        rootClassList,
-        "dark-theme",
-        "The root element incorrectly has the 'dark-theme' class when it should not."
-      );
-    } else {
-      assert.include(
-        rootClassList,
-        "dark-theme",
-        "The root element does not have the 'dark-theme' class as expected."
-      );
-      assert.notInclude(
-        rootClassList,
-        "light-theme",
-        "The root element incorrectly has the 'light-theme' class when it should not."
-      );
+    console.log(`Root element class list: ${rootClassList.join(", ")}`);
+
+    // Deliberately reversed logic for failure
+    try {
+      if (theme === "dark") {
+        assert.include(
+          rootClassList,
+          "light-theme",
+          "The root element does not have the 'light-theme' class as expected."
+        );
+        assert.notInclude(
+          rootClassList,
+          "dark-theme",
+          "The root element incorrectly has the 'dark-theme' class when it should not."
+        );
+      } else {
+        assert.include(
+          rootClassList,
+          "dark-theme",
+          "The root element does not have the 'dark-theme' class as expected."
+        );
+        assert.notInclude(
+          rootClassList,
+          "light-theme",
+          "The root element incorrectly has the 'light-theme' class when it should not."
+        );
+      }
+    } catch (error) {
+      console.error(`Assertion failed: ${error.message}`);
+      throw error; // Rethrow to fail the test
     }
   });
 });
