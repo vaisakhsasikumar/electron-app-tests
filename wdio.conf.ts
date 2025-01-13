@@ -58,10 +58,7 @@ export const config: WebdriverIO.Config = {
     {
       browserName: "electron",
       "goog:chromeOptions": {
-        args:
-          theme === "dark"
-            ? ["headless", "disable-gpu", "dark-mode"]
-            : ["headless", "disable-gpu"],
+        args: ["disable-gpu", "force-dark-mode"],
       },
       "wdio:electronServiceOptions": {
         appBinaryPath:
