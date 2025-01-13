@@ -60,7 +60,7 @@ export const config: WebdriverIO.Config = {
       "goog:chromeOptions": {
         args:
           theme === "dark"
-            ? ["headless", "disable-gpu", "--force-dark-mode"]
+            ? ["headless", "disable-gpu", "force-dark-mode"]
             : ["headless", "disable-gpu"],
       },
       "wdio:electronServiceOptions": {
