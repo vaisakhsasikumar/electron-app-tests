@@ -20,17 +20,12 @@ get_theme() {
 # Get the theme from the stub
 THEME=$(get_theme)
 
-# Construct the capability argument for WebDriverIO based on the theme
-if [ "$THEME" == "dark" ]; then
-  CAPABILITY="--capabilities=\"{\\\"browserName\\\":\\\"electron\\\",\\\"platformName\\\":\\\"desktop\\\",\\\"goog:chromeOptions\\\":{\\\"args\\\":[\\\"headless\\\",\\\"disable-gpu\\\",\\\"--force-dark-mode\\\"]},\\\"app\\\":\\\"path/to/your/electron-app\\\"}\""
-elif [ "$THEME" == "light" ]; then
-  CAPABILITY="--capabilities=\"{\\\"browserName\\\":\\\"electron\\\",\\\"platformName\\\":\\\"desktop\\\",\\\"goog:chromeOptions\\\":{\\\"args\\\":[\\\"headless\\\",\\\"disable-gpu\\\"]},\\\"app\\\":\\\"path/to/your/electron-app\\\"}\""
-fi
+# Export the theme as an environment variable for WebDriverIO
+export WDIO_THEME="$THEME"
 
-# Run the WebDriverIO tests with the correct capability for dark or light theme
+# Run the WebDriverIO tests
 echo "Starting WebDriverIO tests with $THEME theme..."
-
-npm run test:external -- $CAPABILITY
+npm run test:external
 
 # Check if the command succeeded
 if [ $? -eq 0 ]; then
