@@ -3,8 +3,6 @@ const theme = process.env.WDIO_THEME || "light"; // Default to 'light' if not se
 
 console.log(`Theme const inside wdio config: ${theme}`);
 
-process.env.TEST = "true";
-
 export const config: WebdriverIO.Config = {
   //
   // ====================

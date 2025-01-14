@@ -7,12 +7,6 @@ describe("External System Contracts Test", () => {
 
     console.log(`Theme returned by the stub: ${theme}`);
 
-    await browser.execute((isDark) => {
-      //@ts-ignore
-      window.ipcRenderer.send("set-dark-theme", isDark === "dark"); // Send theme boolean to the main process
-      //@ts-ignore
-    }, theme);
-
     // Verify the class on the root element
     const rootClassList = await browser.execute(() => {
       const root = document.documentElement; // Select the root element
