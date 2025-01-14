@@ -21,7 +21,7 @@ get_theme() {
 THEME=$(get_theme)
 
 # Export the theme as an environment variable for WebDriverIO
-export WDIO_THEME="$THEME"
+export VITE_WDIO_THEME="$THEME"
 
 # Run the WebDriverIO tests
 echo "Starting WebDriverIO tests with $THEME theme..."
