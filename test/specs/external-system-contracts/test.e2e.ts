@@ -3,7 +3,7 @@ import { assert } from "chai";
 
 describe("External System Contracts Test", () => {
   it("should check that application theme corresponds to the OS theme", async () => {
-    const theme = process.env.VITE_WDIO_THEME;
+    const theme = process.env.WDIO_THEME;
 
     console.log(`Theme returned by the stub: ${theme}`);
 
