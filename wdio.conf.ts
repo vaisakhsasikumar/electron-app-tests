@@ -58,12 +58,12 @@ export const config: WebdriverIO.Config = {
     {
       browserName: "electron",
       "goog:chromeOptions": {
-        args: ["headless", "disable-gpu"],
+        args: [],
       },
       "wdio:electronServiceOptions": {
         appBinaryPath:
           "/Applications/MongoDB Query Executor.app/Contents/MacOS/MongoDB Query Executor",
-        appArgs: ["headless"],
+        appArgs: [],
       },
     },
   ],
