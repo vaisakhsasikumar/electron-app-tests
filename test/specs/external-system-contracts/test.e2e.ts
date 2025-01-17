@@ -1,6 +1,5 @@
 import { browser } from "@wdio/globals";
 import { assert } from "chai";
-import MainPage from "../../DSL/mainPage";
 
 describe("External System Contracts Test", () => {
   it("should check that application theme corresponds to the OS theme", async () => {
