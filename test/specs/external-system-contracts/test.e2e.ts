@@ -8,12 +8,9 @@ describe("External System Contracts Test", () => {
     console.log(`Theme returned by the stub: ${theme}`);
 
     // Verify the class on the root element
-    const rootClassList = await browser.execute(() => {
-      const root = document.documentElement; // Select the root element
-      return root.className.split(/\s+/); // Return the list of classes as an array
-    });
+    const rootClassList = await browser.$('html').getAttribute('class');
 
-    console.log(`Root element class list: ${rootClassList.join(", ")}`);
+    console.log(`Root element class list: ${rootClassList}`);
 
     if (theme === "dark") {
       console.log("Checking dark theme");

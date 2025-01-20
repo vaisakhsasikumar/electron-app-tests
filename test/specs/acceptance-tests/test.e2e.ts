@@ -3,14 +3,18 @@ import { assert } from "chai";
 
 describe("MongoDB Query Execution Test", () => {
   it("should execute a simple query and display res-ults", async () => {
-    const queryInput = await browser.$(".card-body textarea");
+    const queryInput = browser.$(`textarea[data-testid="query"]`);
     await queryInput.setValue("{}");
 
-    const runButton = await browser.$(".btn.btn-primary.btn-block");
+    expect(await queryInput.getText()).toBe("{}");
+
+    const runButton = browser.$('button[data-testid="runQueryButton"]');
     await runButton.click();
 
-    const resultElement = await browser.$(".card-body pre");
-    const resultText = await resultElement.getText();
+    const resultText = await browser
+      .$("h5=Query Result")
+      .nextElement()
+      .getText();
 
     assert.notInclude(
       resultText,
@@ -23,7 +27,7 @@ describe("MongoDB Query Execution Test", () => {
   });
 
   it("should execute a simple unsuccessful query and display error", async () => {
-    const queryInput = await browser.$(".card-body textarea");
+    const queryInput = await browser.$('textarea[data-testid="query"]');
     await queryInput.setValue('{"name":"test4}');
 
     const runButton = await browser.$(".btn.btn-primary.btn-block");
@@ -42,7 +46,7 @@ describe("MongoDB Query Execution Test", () => {
 
 describe("Advanced View Toggle Test", () => {
   it("should toggle advanced view and toggle query history", async () => {
-    const advancedViewToggle = await $(".form-check-input");
+    const advancedViewToggle = $('input[data-testid="advancedViewToggle"]');
     await advancedViewToggle.click();
 
     const queryHistorySection = await $(".app-history div");

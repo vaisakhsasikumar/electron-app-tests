@@ -11,15 +11,15 @@ export class POM {
   }
 
   public getQueryInput() {
-    return browser.$("textarea");
+    return browser.$('textarea[data-testid="query"]');
   }
 
   public async getQueryInputText() {
-    return browser.$("textarea").getText();
+    return browser.$('textarea[data-testid="query"]').getText();
   }
 
   public getRunButton() {
-    return browser.$("button=Run Query");
+    return browser.$('button[data-testid="runQueryButton"]');
   }
 
   public async getResultText() {
