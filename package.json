@@ -12,7 +12,7 @@
   },
   "scripts": {
     "test:acceptance": "wdio run ./wdio.conf.ts --spec **/test/specs/acceptance-tests/**",
-    "test:e2e": "wdio run ./wdio.conf.ts --spec ./test/specs/e2e-tests/**",
+    "test:e2e": "E2ETESTS=true wdio run ./wdio.conf.ts --spec ./test/specs/e2e-tests/**",
     "test:external": "wdio run ./wdio.conf.ts --spec ./test/specs/external-system-contracts/*.ts",
     "test:smoke": "wdio run ./wdio.conf.ts  --spec ./test/specs/smoke-tests/**",
     "wdio": "wdio run ./wdio.conf.ts"

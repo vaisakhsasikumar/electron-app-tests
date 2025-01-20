@@ -31,6 +31,11 @@ export class SettingsModal {
     return Promise.resolve($('[data-testid="systemThemeSelector"]'));
   }
 
+  /// Retrieves apply modal button
+  get applyButton(): Promise<WebdriverIO.Element> {
+    return Promise.resolve($('[data-testid="applySeetingsModalButton"]'));
+  }
+
   // Interactions
 
   // Updates the URI in the settings modal.
@@ -60,6 +65,12 @@ export class SettingsModal {
     };
     const themeInput = themeSelectorMap[theme];
     await themeInput.click();
+  }
+
+  // Simulates a click on the apply button in the settings modal.
+  async clickApplyButton(): Promise<void> {
+    const button = await this.applyButton;
+    await button?.click();
   }
 }
 

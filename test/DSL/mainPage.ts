@@ -6,7 +6,7 @@ export class MainPage {
     return Promise.resolve($('[data-testid="runQueryButton"]'));
   }
 
-  // Accesses the input field for entering query text
+  // Retrieves the input field for entering query text
   get queryTextField(): Promise<WebdriverIO.Element> {
     return Promise.resolve($('[data-testid="query"]'));
   }
@@ -21,7 +21,7 @@ export class MainPage {
     return Promise.resolve($('[data-testid="advancedViewToggle"]'));
   }
 
-  // Accesses the query history list container
+  // Retrieves the query history list container
   get queryHistoryResults(): Promise<Array<WebdriverIO.Element>> {
     return Promise.resolve($$('[data-testid="queryHistorySingleElement"]'));
   }
