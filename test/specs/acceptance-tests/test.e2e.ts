@@ -1,20 +1,22 @@
-import { browser } from "@wdio/globals";
 import { assert } from "chai";
 
+import MainPage from "../../DSL/mainPage";
+
 describe("MongoDB Query Execution Test", () => {
+  let mainPage: MainPage;
+
+  beforeEach(() => {
+    mainPage = new MainPage();
+  });
+
   it("should execute a simple query and display res-ults", async () => {
-    const queryInput = browser.$(`textarea[data-testid="query"]`);
-    await queryInput.setValue("{}");
+    await mainPage.setQueryText("{}");
 
-    expect(await queryInput.getText()).toBe("{}");
+    expect(await mainPage.getQueryText()).toBe("{}");
 
-    const runButton = browser.$('button[data-testid="runQueryButton"]');
-    await runButton.click();
+    await mainPage.clickRunQueryButton();
 
-    const resultText = await browser
-      .$("h5=Query Result")
-      .nextElement()
-      .getText();
+    const resultText = await mainPage.getQueryResultText();
 
     assert.notInclude(
       resultText,
@@ -27,14 +29,10 @@ describe("MongoDB Query Execution Test", () => {
   });
 
   it("should execute a simple unsuccessful query and display error", async () => {
-    const queryInput = await browser.$('textarea[data-testid="query"]');
-    await queryInput.setValue('{"name":"test4}');
+    await mainPage.setQueryText('{"name":"test4}');
+    await mainPage.clickRunQueryButton();
 
-    const runButton = await browser.$(".btn.btn-primary.btn-block");
-    await runButton.click();
-
-    const resultElement = await browser.$(".card-body pre");
-    const resultText = await resultElement.getText();
+    const resultText = await mainPage.getQueryResultText();
 
     assert.include(
       resultText,
@@ -46,15 +44,16 @@ describe("MongoDB Query Execution Test", () => {
 
 describe("Advanced View Toggle Test", () => {
   it("should toggle advanced view and toggle query history", async () => {
-    const advancedViewToggle = $('input[data-testid="advancedViewToggle"]');
-    await advancedViewToggle.click();
+    const mainPage = new MainPage();
 
-    const queryHistorySection = await $(".app-history div");
-    await queryHistorySection.waitForDisplayed();
+    await mainPage.toggleAdvancedView();
+
+    const queryHistorySection = await mainPage.queryHistoryResults;
 
     // Assert that the "Query History" section is visible
     await expect(queryHistorySection).toBeDisplayed();
-    await advancedViewToggle.click();
+
+    await mainPage.toggleAdvancedView();
     await expect(queryHistorySection).not.toBeDisplayed();
   });
 });

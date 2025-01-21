@@ -22,6 +22,8 @@ describe("MongoDB Query Execution Test", () => {
     assert.include(resultText, "test3", "Query result should contain field");
   });
 
+  //Placeholder test for a modal
+
   it("it should open and interract with the modal", async () => {
     await browser.electron.execute(async (electron) => {
       electron.BrowserWindow.getFocusedWindow()?.webContents.send(
