@@ -1,29 +1,39 @@
-import { assert } from 'chai';
+import { assert } from "chai";
 
-import { POM } from '../../utils/pom';
+import MainPage from "../../utils/DSL/mainPage";
 
-describe('Electron Testing', () => {
-    it('should successfully launches the app', async () => {
-        const mainPage = new POM();
+describe("Electron Testing", () => {
+  let mainPage: MainPage;
 
-        assert.strictEqual(await mainPage.checkApplicationIsReady(), true, 'Application is not ready');
-    })
+  beforeEach(() => {
+    mainPage = new MainPage();
+  });
 
-    it('should test application title', async () => {
-        const mainPage = new POM();
+  it("should successfully launches the app", async () => {
+    assert.strictEqual(
+      await mainPage.checkApplicationIsReady(),
+      true,
+      "Application is not ready"
+    );
+  });
 
-        const title = await mainPage.getTitle();
+  it("should test application title", async () => {
+    const title = await mainPage.getApplicationTitle();
 
-        assert.strictEqual(title, 'MongoDB Query Executor', 'Incorrect application title');
-    })
+    assert.strictEqual(
+      title,
+      "MongoDB Query Executor",
+      "Incorrect application title"
+    );
+  });
 
-    it('should check the Enter MongoDB Query field is writable', async () => {
-        const mainPage = new POM();
+  it("should check the Enter MongoDB Query field is writable", async () => {
+    await mainPage.setQueryText("{}");
 
-        const queryInput = mainPage.getQueryInput();
-        await queryInput.setValue('{}');
-
-        assert.strictEqual(await mainPage.getQueryInputText(), '{}', 'Incorrect query text');
-    })
-})
-
+    assert.strictEqual(
+      await mainPage.getQueryText(),
+      "{}",
+      "Incorrect query text"
+    );
+  });
+});

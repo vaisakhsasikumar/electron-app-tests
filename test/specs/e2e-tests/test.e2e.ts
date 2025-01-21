@@ -1,8 +1,8 @@
 import { browser } from "wdio-electron-service";
 import { assert } from "chai";
 
-import MainPage from "../../DSL/mainPage";
-import SettingsModal from "../../DSL/modal";
+import MainPage from "../../utils/DSL/mainPage";
+import SettingsModal from "../../utils/DSL/modal";
 
 describe("MongoDB Query Execution Test", () => {
   it("should execute a simple query and display results", async () => {

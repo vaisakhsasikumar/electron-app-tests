@@ -1,3 +1,5 @@
+import { browser } from "@wdio/globals";
+
 export class MainPage {
   // Selectors
 
@@ -68,6 +70,16 @@ export class MainPage {
     const lastElement = results[results.length - 1];
     const lastElementText = await lastElement.getText();
     return lastElementText;
+  }
+  // Retrieve application's title
+  async getApplicationTitle(): Promise<string> {
+    return browser.getTitle();
+  }
+
+  // Retrieve application's title
+  async checkApplicationIsReady(): Promise<boolean | undefined> {
+    const status = await browser.status();
+    return status.ready;
   }
 }
 
