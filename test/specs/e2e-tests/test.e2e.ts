@@ -1,20 +1,16 @@
 import { browser } from "wdio-electron-service";
 import { assert } from "chai";
 
-import { POM } from "../../utils/pom";
+import MainPage from "../../DSL/mainPage";
 import SettingsModal from "../../DSL/modal";
 
 describe("MongoDB Query Execution Test", () => {
   it("should execute a simple query and display results", async () => {
-    const mainPage = new POM();
+    const mainPage = new MainPage();
 
-    const queryInput = mainPage.getQueryInput();
-    await queryInput.setValue("{}");
-
-    const runButton = mainPage.getRunButton();
-    await runButton.click();
-
-    const resultText = await mainPage.getResultText();
+    await mainPage.setQueryText("{}");
+    await mainPage.clickRunQueryButton();
+    const resultText = await mainPage.getQueryResultText();
 
     assert.notInclude(
       resultText,
