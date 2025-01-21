@@ -23,9 +23,9 @@ describe("MongoDB Query Execution Test", () => {
       "Invalid Query",
       'Query result should not contain "Invalid Query"'
     );
-    // assert.include(resultText, "test1", "Query result should contain field");
-    // assert.include(resultText, "test2", "Query result should contain field");
-    // assert.include(resultText, "test3", "Query result should contain field");
+    assert.include(resultText, "test1", "Query result should contain field");
+    assert.include(resultText, "test2", "Query result should contain field");
+    assert.include(resultText, "test3", "Query result should contain field");
   });
 
   it("should execute a simple unsuccessful query and display error", async () => {
