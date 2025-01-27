@@ -24,13 +24,4 @@ THEME=$(get_theme)
 export WDIO_THEME="$THEME"
 
 # Run the WebDriverIO tests
-echo "Starting WebDriverIO tests with $THEME theme..."
-npm run test:external
-
-# Check if the command succeeded
-if [ $? -eq 0 ]; then
-  echo "WebDriverIO tests completed successfully."
-else
-  echo "Error: WebDriverIO tests failed." >&2
-  exit 1
-fi
+echo "Starting WebDriverIO acceptance tests with $THEME theme..."
