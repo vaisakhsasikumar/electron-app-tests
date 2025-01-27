@@ -140,7 +140,7 @@ jobs:
         run: chmod 755 ./automated_testing/prepare-for-acceptance-tests.sh
 
       - name: Run Acceptance Test Theme Stubbing script that sests a theme env var
-        run: ./automated_testin/prepare-for-acceptance-tests.sh
+        run: ./automated_testing/prepare-for-acceptance-tests.sh
 
       - name: Run Acceptance Tests
         run: npm run test:acceptance
