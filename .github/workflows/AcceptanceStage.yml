@@ -178,9 +178,6 @@ jobs:
       - name: Run application installation
         run: ./automated_testing/install.sh
 
-      - name: Start Mock services
-        run: ./automated_testing/mock-start.sh
-
       - name: Run Smoke Tests and Health Checks
         run: ./automated_testing/run-smoke-tests.sh
 
@@ -189,9 +186,6 @@ jobs:
 
       - name: Run E2E Tests
         run: npm run test:e2e
-
-      - name: Stop Mock services
-        run: ./automated_testing/mock-end.sh
 
   upload_artifact:
     name: Upload Artifact
