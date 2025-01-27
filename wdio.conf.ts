@@ -29,13 +29,13 @@ export const config: WebdriverIO.Config = {
   //
   specs: ["./test/specs/**/*.ts"],
   suites: {
-    acceptance: ["./test/specs/acceptance-tests/*.test.ts"],
-    e2e: ["./test/specs/e2e-tests/*.test.ts"],
-    external: ["./test/specs/external-system-contracts/*.test.ts"],
+    acceptance: ["./test/specs/acceptance-tests/*.ts"],
+    e2e: ["./test/specs/e2e-tests/*.ts"],
+    external: ["./test/specs/external-system-contracts/*.ts"],
     smoke: [
       [
-        "./test/specs/health-checks/*.test.ts",
-        "./test/specs/smoke-tests/*.test.ts",
+        "./test/specs/health-checks/*.ts",
+        "./test/specs/smoke-tests/*.ts",
       ],
     ],
   },
