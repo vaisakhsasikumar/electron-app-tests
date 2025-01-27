@@ -11,8 +11,8 @@
     "electron": "^30.5.1"
   },
   "scripts": {
-    "test:acceptance": "wdio run ./wdio.conf.ts --suite acceptance",
-    "test:e2e": "E2ETESTS=true wdio run ./wdio.conf.ts --suite e2e",
+    "test:acceptance": "TESTS=true wdio run ./wdio.conf.ts --suite acceptance",
+    "test:e2e": "wdio run ./wdio.conf.ts --suite e2e",
     "test:external": "wdio run ./wdio.conf.ts --suite external",
     "test:smoke": "wdio run ./wdio.conf.ts --suite smoke",
     "wdio": "wdio run ./wdio.conf.ts"

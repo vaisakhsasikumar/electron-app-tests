@@ -2,6 +2,11 @@ export class SettingsModal {
   // Selectors
 
   // Retrieves the URI input field in the settings modal.
+  get modal(): Promise<WebdriverIO.Element> {
+    return Promise.resolve($('[data-testid="settingsModal"]'));
+  }
+
+  // Retrieves the URI input field in the settings modal.
   get uriInput(): Promise<WebdriverIO.Element> {
     return Promise.resolve($('[data-testid="URI"]'));
   }
@@ -34,6 +39,11 @@ export class SettingsModal {
   /// Retrieves apply modal button
   get applyButton(): Promise<WebdriverIO.Element> {
     return Promise.resolve($('[data-testid="applySeetingsModalButton"]'));
+  }
+
+  /// Retrieves cancel modal button
+  get cancelButton(): Promise<WebdriverIO.Element> {
+    return Promise.resolve($('[data-testid="cancelSeetingsModalButton"]'));
   }
 
   // Interactions
@@ -70,6 +80,12 @@ export class SettingsModal {
   // Simulates a click on the apply button in the settings modal.
   async clickApplyButton(): Promise<void> {
     const button = await this.applyButton;
+    await button?.click();
+  }
+
+  // Simulates a click on the cancel button in the settings modal.
+  async clickCancelButton(): Promise<void> {
+    const button = await this.cancelButton;
     await button?.click();
   }
 }

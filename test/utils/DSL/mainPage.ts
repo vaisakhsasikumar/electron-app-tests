@@ -29,7 +29,7 @@ export class MainPage {
   }
 
   // Retrieves the query history list container
-  get queryHistoryResultsLastElement(): Promise<Array<WebdriverIO.Element>> {
+  get queryHistoryResultsAllElements(): Promise<Array<WebdriverIO.Element>> {
     return Promise.resolve($$('[data-testid="queryHistorySingleElement"]'));
   }
 
@@ -59,18 +59,38 @@ export class MainPage {
     return resultContainer.getText();
   }
 
+  // Retrieves the toggle value
+  async getToggleValue(): Promise<boolean> {
+    const toggle = await this.advancedViewToggle;
+    return toggle.isSelected();
+  }
+
   // Toggles the advanced view switch.
   async toggleAdvancedView(): Promise<void> {
     const toggle = await this.advancedViewToggle;
     await toggle.click(); // Simulates a user click to toggle the checkbox
   }
 
+  async findClickMinusTwoQueriesInHistory(): Promise<void> {
+    const results = await this.queryHistoryResultsAllElements;
+    const minusTwoQueriesFromLast = results[results.length - 3];
+    await minusTwoQueriesFromLast.click();
+  }
+
   async getLastQueryHistoryText(): Promise<string> {
-    const results = await this.queryHistoryResultsLastElement;
+    const results = await this.queryHistoryResultsAllElements;
     const lastElement = results[results.length - 1];
     const lastElementText = await lastElement.getText();
     return lastElementText;
   }
+
+  async clickRandomItemInHistory(): Promise<void> {
+    const results = await this.queryHistoryResultsAllElements;
+    const randomIndex = Math.floor(Math.random() * results.length);
+    const randomElement = results[randomIndex];
+    await randomElement.click();
+  }
+
   // Retrieve application's title
   async getApplicationTitle(): Promise<string> {
     return browser.getTitle();
