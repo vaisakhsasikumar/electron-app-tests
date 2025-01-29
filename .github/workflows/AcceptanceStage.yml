@@ -103,7 +103,7 @@ jobs:
     runs-on: macos-latest
     env:
       GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-      VITE_VERSION_API: localhost:8080/api/check-version
+      VITE_VERSION_API: http://localhost:8080/api/check-version
     needs: [fetch_run_id, cache-artifact]
     steps:
       - name: Github checkout
