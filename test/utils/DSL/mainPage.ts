@@ -119,8 +119,10 @@ export class MainPage {
 
   async getRealThemeVersionFromGithub() {
     const response = await fetch(
-      "https://api.github.com/repos/vaisakhsasikumar/my-electron-app/releases/latest"
+      "https://api.github.com/repos/vaisakhsasikumar/my-electron-app/releases/latest",
+      { headers: { "User-Agent": "my-electron-app" } }
     );
+    console.log(response);
     return response;
   }
 }
