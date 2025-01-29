@@ -10,16 +10,8 @@ describe("External System Contracts Test", () => {
 
     console.log(`Root element class list: ${rootClassList}`);
 
-    assert.include(
-      rootClassList,
-      "light-theme",
-      "The root element does not have the 'light-theme' class as expected."
-    );
-    assert.notInclude(
-      rootClassList,
-      "dark-theme",
-      "The root element incorrectly has the 'dark-theme' class when it should not."
-    );
+    await expect(rootClassList).toContain("light-theme");
+    await expect(rootClassList).not.toContain("dark-theme");
   });
 });
 
