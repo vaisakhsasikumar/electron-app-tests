@@ -5,7 +5,7 @@ import { AllChannels, AppDriver } from "../types";
 import { UIAppDriver } from "../drivers/UI";
 
 export class AppDrivers implements AppDriver {
-//   private activeChannels: Array<AllChannels>;
+  //   private activeChannels: Array<AllChannels>;
   private drivers: Record<string, AppDriver> = {};
 
   constructor() {
@@ -43,11 +43,11 @@ export class AppDsl {
   }
 
   public async setQuery(query: string) {
-    this.driver.setQuery(query);
+    await this.driver.setQuery(query);
   }
 
   public async clickRunQuery() {
-    this.driver.clickRunQuery();
+    await this.driver.clickRunQuery();
   }
 
   public async getQueryResult() {

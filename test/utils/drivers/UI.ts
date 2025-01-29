@@ -18,11 +18,11 @@ export class UIAppDriver implements AppDriver {
   }
 
   public async setQuery(query: string) {
-    this.mainPage.setQueryText(query);
+    await this.mainPage.setQueryText(query);
   }
 
   public async clickRunQuery() {
-    this.mainPage.clickRunQueryButton();
+    await this.mainPage.clickRunQueryButton();
   }
 
   public async getQueryResult() {

@@ -449,10 +449,12 @@ describe("Version", async () => {
 
     const getMockResponse = await mainPage.getAppStubResponse();
     await expect(getMockResponse.status).toEqual(200);
-    await expect(getMockResponse).toHaveProperty("data");
-    await expect(getMockResponse.data).toHaveProperty("tag_name");
 
-    const stubVersion = getMockResponse.data.tag_name;
+    const data = await getMockResponse.json();
+
+    await expect(data).toHaveProperty("tag_name");
+
+    const stubVersion = data?.tag_name;
 
     const newVersionBanner = await mainPage.newVersionBanner;
 

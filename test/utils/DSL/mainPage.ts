@@ -1,5 +1,4 @@
 import { browser } from "@wdio/globals";
-import axios from "axios";
 export class MainPage {
   // Selectors
 
@@ -114,19 +113,13 @@ export class MainPage {
   }
 
   async getAppStubResponse() {
-    const response = await axios.get(process.env.VITE_VERSION_API as string);
+    const response = await fetch(process.env.VITE_VERSION_API as string);
     return response;
   }
 
   async getRealThemeVersionFromGithub() {
-    const response = await axios.get(
-      `https://api.github.com/repos/${process.env.OWNER}/my-electron-app/releases/latest`,
-      {
-        headers: {
-          Authorization: `token ${process.env.GITHUB_TOKEN}`,
-          Accept: "application/vnd.github.v3+json",
-        },
-      }
+    const response = await fetch(
+      "https://api.github.com/repos/vaisakhsasikumar/my-electron-app/releases/latest"
     );
     return response;
   }
