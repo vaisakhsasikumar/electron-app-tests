@@ -24,6 +24,7 @@ jobs:
     runs-on: ubuntu-latest
     env:
       GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+      ACP_ENV: true
     steps:
       - name: Check for new commits
         id: check_commits
