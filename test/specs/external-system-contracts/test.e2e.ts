@@ -1,5 +1,4 @@
 import { browser } from "wdio-electron-service";
-import { assert } from "chai";
 import MainPage from "../../utils/DSL/mainPage";
 import * as semver from "semver";
 
