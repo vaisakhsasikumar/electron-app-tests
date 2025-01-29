@@ -1,5 +1,5 @@
 import { browser } from "@wdio/globals";
-
+import axios from "axios";
 export class MainPage {
   // Selectors
 
@@ -31,6 +31,11 @@ export class MainPage {
   // Retrieves the query history list container
   get queryHistoryResultsAllElements(): Promise<Array<WebdriverIO.Element>> {
     return Promise.resolve($$('[data-testid="queryHistorySingleElement"]'));
+  }
+
+  // Retrieves the new version banner
+  get newVersionBanner(): Promise<WebdriverIO.Element> {
+    return Promise.resolve($('[data-testid="versionBanner"]'));
   }
 
   //Interactions
@@ -100,6 +105,24 @@ export class MainPage {
   async checkApplicationIsReady(): Promise<boolean | undefined> {
     const status = await browser.status();
     return status.ready;
+  }
+
+  async getAppVersion() {
+    return browser.electron.execute(async (electron) => {
+      return electron.app.getVersion();
+    });
+  }
+
+  async getAppStubResponse() {
+    const response = await axios.get(process.env.VITE_VERSION_API as string);
+    return response;
+  }
+
+  async getRealThemeVersionFromGithub() {
+    const response = await axios.get(
+      "https://api.github.com/repos/vaisakhsasikumar/my-electron-app/releases/latest"
+    );
+    return response;
   }
 }
 

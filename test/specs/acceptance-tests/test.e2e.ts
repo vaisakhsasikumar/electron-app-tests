@@ -5,6 +5,8 @@ import MainPage from "../../utils/DSL/mainPage";
 import Modal from "../../utils/DSL/modal";
 import MenuBar from "../../utils/DSL/menuBar";
 
+import * as semver from "semver";
+
 //Seeing Persisting Query History should run first
 
 describe("Seeing Persisting Query History", async () => {
@@ -432,5 +434,32 @@ describe("Select Theme", async () => {
       "light-theme",
       "The root element incorrectly has the 'light-theme' class when it should not."
     );
+  });
+});
+
+describe("Version", async () => {
+  let mainPage: MainPage;
+
+  beforeEach(() => {
+    mainPage = new MainPage();
+  });
+
+  it("should successfully check version against stub", async () => {
+    const appVersion = await mainPage.getAppVersion();
+
+    const getMockResponse = await mainPage.getAppStubResponse();
+    await expect(getMockResponse.status).toEqual(200);
+    await expect(getMockResponse).toHaveProperty("data");
+    await expect(getMockResponse.data).toHaveProperty("tag_name");
+
+    const stubVersion = getMockResponse.data.tag_name;
+
+    const newVersionBanner = await mainPage.newVersionBanner;
+
+    if (semver.lte(appVersion, stubVersion)) {
+      await expect(newVersionBanner).toBeDisplayed();
+    } else {
+      await expect(newVersionBanner).not.toBeDisplayed();
+    }
   });
 });
