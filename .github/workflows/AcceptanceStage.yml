@@ -103,6 +103,7 @@ jobs:
     runs-on: macos-latest
     env:
       GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+      OWMER: ${{github.repository_owner}}
       VITE_VERSION_API: http://localhost:8080/api/check-version
       ACP_ENV: true
     needs: [fetch_run_id, cache-artifact]
@@ -149,6 +150,7 @@ jobs:
     name: Deploying artifacts to E2E Environment and run tests
     env:
       GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+      OWMER: ${{github.repository_owner}}
       E2E_ENV: true
     runs-on: macos-latest
     needs: [fetch_run_id, cache-artifact]
