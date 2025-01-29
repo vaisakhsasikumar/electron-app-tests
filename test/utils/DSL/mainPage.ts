@@ -120,7 +120,12 @@ export class MainPage {
 
   async getRealThemeVersionFromGithub() {
     const response = await axios.get(
-      "https://api.github.com/repos/vaisakhsasikumar/my-electron-app/releases/latest"
+      "https://api.github.com/repos/vaisakhsasikumar/my-electron-app/releases/latest",
+      {
+        headers: {
+          "User-Agent": "request",
+        },
+      }
     );
     return response;
   }
