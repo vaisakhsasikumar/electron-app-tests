@@ -135,10 +135,6 @@ jobs:
       - name: Run Smoke Tests and Health Checks
         run: ./automated_testing/run-smoke-tests.sh
 
-      - name: Set Permissions for Acceptance Test Theme Stubbing script that sests a theme env var
-        # Allow execute pipeline script
-        run: chmod 755 ./automated_testing/prepare-for-acceptance-tests.sh
-
       - name: Run Acceptance Test Theme Stubbing script that sests a theme env var
         run: ./automated_testing/prepare-for-acceptance-tests.sh
 

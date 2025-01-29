@@ -2,7 +2,8 @@ import net from 'node:net';
 
 describe('External health check', () => {
     it('should return up state', async () => {
-        function isMongoDBRunning(host = '127.0.0.1', port = 27017) {
+      
+        function isMongoDBRunning(host = process.env.MONGODB_HOST, port = process.env.MONGODB_PORT) {
             return new Promise((resolve) => {
               const socket = new net.Socket();
               

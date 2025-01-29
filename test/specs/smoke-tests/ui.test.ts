@@ -10,8 +10,10 @@ describe("Electron Testing", () => {
   });
 
   it("should successfully launches the app", async () => {
+    const isApplicationReady = await mainPage.checkApplicationIsReady();
+
     assert.strictEqual(
-      await mainPage.checkApplicationIsReady(),
+      isApplicationReady,
       true,
       "Application is not ready"
     );
@@ -30,8 +32,10 @@ describe("Electron Testing", () => {
   it("should check the Enter MongoDB Query field is writable", async () => {
     await mainPage.setQueryText("{}");
 
+    const queryText = await mainPage.getQueryText();
+
     assert.strictEqual(
-      await mainPage.getQueryText(),
+      queryText,
       "{}",
       "Incorrect query text"
     );

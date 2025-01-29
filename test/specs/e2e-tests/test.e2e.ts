@@ -1,14 +1,15 @@
 import { assert } from "chai";
 
-import MainPage from "../../utils/DSL/mainPage";
+import { AppDsl, AppDrivers } from "../../utils/DSL/dsl";
 
 describe("MongoDB Query Execution Test", () => {
-  it("should execute a simple query and display results", async () => {
-    const mainPage = new MainPage();
 
-    await mainPage.setQueryText("{}");
-    await mainPage.clickRunQueryButton();
-    const resultText = await mainPage.getQueryResultText();
+  it("should execute a simple query and display results", async () => {
+    const application = new AppDsl(new AppDrivers());
+
+    await application.setQuery("{}");
+    await application.clickRunQuery();
+    const resultText = await application.getQueryResult();
 
     assert.notInclude(
       resultText,

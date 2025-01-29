@@ -13,13 +13,14 @@
     "electron": "^30.5.1"
   },
   "scripts": {
-    "test:acceptance": "TESTS=true wdio run ./wdio.conf.ts --suite acceptance",
-    "test:e2e": "wdio run ./wdio.conf.ts --suite e2e",
-    "test:external": "TESTS=true wdio run ./wdio.conf.ts --suite external",
-    "test:smoke": "wdio run ./wdio.conf.ts --suite smoke",
+    "test:acceptance": "dotenvx run --env TESTS=true -f .env.test -- wdio run ./wdio.conf.ts --suite acceptance",
+    "test:e2e": "dotenvx run -f .env.test -- wdio run ./wdio.conf.ts --suite e2e",
+    "test:external": "dotenvx run --env TESTS=true -f .env.test -- wdio run ./wdio.conf.ts --suite external",
+    "test:smoke": "dotenvx run -f .env.test -- wdio run ./wdio.conf.ts --suite smoke",
     "wdio": "wdio run ./wdio.conf.ts"
   },
   "dependencies": {
+    "@dotenvx/dotenvx": "^1.34.0",
     "semver": "^7.6.3",
     "wdio-electron-service": "^7.3.1"
   }
