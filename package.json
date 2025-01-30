@@ -9,7 +9,8 @@
     "@wdio/mocha-framework": "^9.4.3",
     "@wdio/spec-reporter": "^9.4.3",
     "chai": "^5.1.2",
-    "electron": "^30.5.1"
+    "electron": "^30.5.1",
+    "nock": "^14.0.0"
   },
   "scripts": {
     "test:acceptance": "dotenvx run --env TESTS=true -f .env.test -- wdio run ./wdio.conf.ts --suite acceptance",
