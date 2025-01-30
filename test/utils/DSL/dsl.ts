@@ -1,22 +1,17 @@
-import MainPage from "./mainPage";
-import Modal from "./modal";
-import MenuBar from "./menuBar";
-import { AllChannels, AppDriver } from "../types";
+import { AllChannels, AppDriver, Channels } from "../types";
 import { UIAppDriver } from "../drivers/UI";
+import { APIAppDriver } from "../drivers/API";
 
 export class AppDrivers implements AppDriver {
-  //   private activeChannels: Array<AllChannels>;
-  private drivers: Record<string, AppDriver> = {};
+  private drivers = {} as Record<Channels, AppDriver>;
 
-  constructor() {
-    this.drivers["UI"] = new UIAppDriver();
-    // this.drivers["API"] = new ApiShopDriver();
+  constructor(channels: Array<AllChannels>) {
+    this.drivers[Channels.UI] = new APIAppDriver();
+    this.drivers[Channels.API] = new UIAppDriver();
   }
 
-  get driver(): AppDriver {
-    // Get channel from annotations, see example: https://github.com/davef77/atdd-course-examples/blob/master/src/test/java/com/cd/acceptance/examples/bookshopping/drivers/BookShopDrivers.java
-    // For simplicity, let's just return the UI driver, but the proper implementation should make it come from the channel annotations
-    return this.drivers["UI"];
+  get driver() {
+    return this.drivers[Channels.UI];
   }
 
   // @Override

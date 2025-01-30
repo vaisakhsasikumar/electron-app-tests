@@ -146,3 +146,6 @@ dist-ssr
 
 # Hide system files
 .DS_Store
+
+# Hide .vscode
+.vscode

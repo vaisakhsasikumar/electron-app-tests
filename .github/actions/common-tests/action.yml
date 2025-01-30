@@ -1,0 +1,35 @@
+name: "Common test steps"
+description: "Setup environment and run shared steps (Node.js install, npm ci, start mock, smoke tests)"
+inputs:
+  node-version:
+    description: "The Node.js version"
+    required: false
+    default: "20"
+
+runs:
+  using: "composite"
+  steps:
+    - name: Use Node.js
+      uses: actions/setup-node@v4
+      with:
+        node-version: ${{ inputs.node-version }}
+
+    - name: Install dependencies
+      shell: bash
+      run: npm ci
+
+    - name: Set Permissions to bash scripts
+      shell: bash
+      run: chmod 755 ./automated_testing/*.sh
+
+    - name: Run application installation
+      shell: bash
+      run: ./automated_testing/install.sh
+
+    - name: Start Mock services
+      shell: bash
+      run: ./automated_testing/mock-start.sh
+
+    - name: Run Smoke Tests and Health Checks
+      shell: bash
+      run: ./automated_testing/run-smoke-tests.sh
