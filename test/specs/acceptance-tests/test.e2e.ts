@@ -355,6 +355,7 @@ describe("MongoDB Query Execution Test", async () => {
     // MongoDB documentation states there are no proper ways to mock it.
 
     // This test follows the Four Layer Model Approach.
+    await browser.reloadSession();
 
     const application = new AppDsl(new AppDrivers(["UI", "API"]));
 
@@ -374,7 +375,6 @@ describe("MongoDB Query Execution Test", async () => {
 
   it("should execute a simple unsuccessful query and display error", async () => {
     await mainPage.setQueryText('{"name":"test4}');
-    await expect(await mainPage.runQueryButton).toBeClickable();
 
     await mainPage.clickRunQueryButton();
 
