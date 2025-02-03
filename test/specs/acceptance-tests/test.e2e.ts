@@ -374,6 +374,8 @@ describe("MongoDB Query Execution Test", async () => {
 
   it("should execute a simple unsuccessful query and display error", async () => {
     await mainPage.setQueryText('{"name":"test4}');
+    await expect(await mainPage.runQueryButton).toBeClickable();
+
     await mainPage.clickRunQueryButton();
 
     const resultText = await mainPage.getQueryResultText();
