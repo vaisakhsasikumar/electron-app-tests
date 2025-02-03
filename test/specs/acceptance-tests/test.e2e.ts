@@ -9,6 +9,8 @@ import { WireMock } from "wiremock-captain";
 import { GithubStubDriver } from "../../utils/drivers/GithubStubDriver";
 import { GithubStubDsl } from "../../utils/DSL/GithubStubDsl";
 
+import { AppDsl, AppDrivers } from "../../utils/DSL/dsl";
+
 //Seeing Persisting Query History should run first
 
 describe("Seeing Persisting Query History", async () => {
@@ -99,46 +101,6 @@ describe("Seeing Persisting Query History", async () => {
 
     await expect(lastQueryHistoryResult).toContain(
       `Query: {"name":"test1"} | Result:`
-    );
-  });
-});
-
-describe("MongoDB Query Execution Test", async () => {
-  let mainPage: MainPage;
-
-  beforeEach(() => {
-    mainPage = new MainPage();
-  });
-
-  it("should execute a simple query and display res-ults", async () => {
-    await mainPage.setQueryText("{}");
-
-    expect(await mainPage.getQueryText()).toBe("{}");
-
-    await mainPage.clickRunQueryButton();
-
-    const resultText = await mainPage.getQueryResultText();
-
-    assert.notInclude(
-      resultText,
-      "Invalid Query",
-      'Query result should not contain "Invalid Query"'
-    );
-    assert.include(resultText, "test1", "Query result should contain field");
-    assert.include(resultText, "test2", "Query result should contain field");
-    assert.include(resultText, "test3", "Query result should contain field");
-  });
-
-  it("should execute a simple unsuccessful query and display error", async () => {
-    await mainPage.setQueryText('{"name":"test4}');
-    await mainPage.clickRunQueryButton();
-
-    const resultText = await mainPage.getQueryResultText();
-
-    assert.include(
-      resultText,
-      "Invalid query or server error.",
-      'Query result should not contain "Invalid Query"'
     );
   });
 });
@@ -332,6 +294,101 @@ describe("Settings", async () => {
   });
 });
 
+describe.skip("Advanced View Startup Preference", async () => {
+  it("should enable Advanced View on startup", async () => {
+    await browser.reloadSession();
+
+    const mainPage = new MainPage();
+
+    const settingsModal = new Modal();
+
+    const appMenu = new MenuBar("MongoDB Query Executor");
+
+    const appMenuExists = await appMenu.doesAppMenuExist();
+
+    assert.equal(
+      appMenuExists,
+      true,
+      "MongoDB Query Executor menu item exists"
+    );
+
+    const successfulClickOnAppMenu = await appMenu.doMenuClickById("appName");
+
+    assert.equal(
+      successfulClickOnAppMenu,
+      true,
+      "Click on MongoDB Query Executor"
+    );
+
+    const successfulClickOnSettingMenu = await appMenu.doMenuClickById(
+      "settings"
+    );
+
+    assert.equal(successfulClickOnSettingMenu, true, "Click on Settings");
+
+    const settingsModalVisible = await settingsModal.modal;
+
+    await expect(settingsModalVisible).toBeDisplayed();
+
+    await settingsModal.clickAdvancedViewOnStartCheckbox();
+    await settingsModal.clickApplyButton();
+
+    await browser.reloadSession();
+
+    const queryHistoryResults = await mainPage.queryHistoryResults;
+
+    await expect(queryHistoryResults).toBeDisabled();
+  });
+});
+
+// ========== Maintainable Acceptance Test Start ==========
+
+describe("MongoDB Query Execution Test", async () => {
+  let mainPage: MainPage;
+
+  beforeEach(() => {
+    mainPage = new MainPage();
+  });
+
+  it("should execute a simple query and display results", async () => {
+    // Using a real MongoDB instance for these tests.
+    // MongoDB documentation states there are no proper ways to mock it.
+
+    // This test follows the Four Layer Model Approach.
+
+    const application = new AppDsl(new AppDrivers(["UI", "API"]));
+
+    await application.setQuery("{}");
+    await application.clickRunQuery();
+    const queryResult = await application.getQueryResult();
+
+    assert.notInclude(
+      queryResult,
+      "Invalid query",
+      'Query result should not contain "Invalid query"'
+    );
+    assert.include(queryResult, "test1", "Query result should contain field");
+    assert.include(queryResult, "test2", "Query result should contain field");
+    assert.include(queryResult, "test3", "Query result should contain field");
+  });
+
+  it("should execute a simple unsuccessful query and display error", async () => {
+    await mainPage.setQueryText('{"name":"test4}');
+    await mainPage.clickRunQueryButton();
+
+    const resultText = await mainPage.getQueryResultText();
+
+    assert.include(
+      resultText,
+      "Invalid query or server error.",
+      'Query result should not contain "Invalid Query"'
+    );
+  });
+});
+
+// ========== External Systems but for Acceptance - Theme  ==========
+// Theme selection follows DSL but not Four Layer Model due to technical limitations.
+
 describe("Select Theme", async () => {
   let appMenu: MenuBar;
   let settingsModal: Modal;
@@ -439,7 +496,9 @@ describe("Select Theme", async () => {
   });
 });
 
-//Maintainable Acceptance Test start
+// ========== External Systems but for Acceptance - Version ==========
+// Uses Four Layer Model.
+// Stubbed API is used for educational purposes due to GitHub API limitations (no more than 60 calls per day)
 
 describe("Version", async () => {
   let mainPage: MainPage;
@@ -462,50 +521,3 @@ describe("Version", async () => {
 });
 
 //Maintainable Acceptance Test end
-
-describe.skip("Advanced View Startup Preference", async () => {
-  it("should enable Advanced View on startup", async () => {
-    await browser.reloadSession();
-
-    const mainPage = new MainPage();
-
-    const settingsModal = new Modal();
-
-    const appMenu = new MenuBar("MongoDB Query Executor");
-
-    const appMenuExists = await appMenu.doesAppMenuExist();
-
-    assert.equal(
-      appMenuExists,
-      true,
-      "MongoDB Query Executor menu item exists"
-    );
-
-    const successfulClickOnAppMenu = await appMenu.doMenuClickById("appName");
-
-    assert.equal(
-      successfulClickOnAppMenu,
-      true,
-      "Click on MongoDB Query Executor"
-    );
-
-    const successfulClickOnSettingMenu = await appMenu.doMenuClickById(
-      "settings"
-    );
-
-    assert.equal(successfulClickOnSettingMenu, true, "Click on Settings");
-
-    const settingsModalVisible = await settingsModal.modal;
-
-    await expect(settingsModalVisible).toBeDisplayed();
-
-    await settingsModal.clickAdvancedViewOnStartCheckbox();
-    await settingsModal.clickApplyButton();
-
-    await browser.reloadSession();
-
-    const queryHistoryResults = await mainPage.queryHistoryResults;
-
-    await expect(queryHistoryResults).toBeDisabled();
-  });
-});
