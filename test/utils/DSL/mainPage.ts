@@ -123,6 +123,22 @@ export class MainPage {
     );
     return response;
   }
+
+  async getQueryResultBackgroundColor(): Promise<string> {
+    const resultElem = await this.queryResultContainer;
+    // getCSSProperty returns an object with a "value" property, for example "rgb(30, 30, 30)"
+    const bg = await resultElem.getCSSProperty('background-color');
+    return bg.value;
+  }
+
+  async getQueryHistoryItemBackgroundColor(index = 0): Promise<string> {
+    const historyElems = await this.queryHistoryResultsAllElements;
+    if (historyElems.length > index) {
+      const bg = await historyElems[index].getCSSProperty('background-color');
+      return bg.value;
+    }
+    return "";
+  }
 }
 
 export default MainPage;

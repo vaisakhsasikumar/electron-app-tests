@@ -14,57 +14,30 @@ import { AppDsl, AppDrivers } from "../../utils/DSL/dsl";
 
 
 describe("Theme Change Acceptance Test", async () => {
-  let app: AppDrivers;
-  let themeStub: ThemeStubDsl;
-  const wireMock = new WireMock(`${process.env.WIREMOCK_HOST}:${process.env.WIREMOCK_PORT}`);
-
-  let appMenu: MenuBar;
-  let settingsModal: Modal;
   let mainPage: MainPage;
-  
+
   beforeEach(async () => {
-    app = new AppDrivers(wireMock);
-    themeStub = new ThemeStubDsl(new RealThemeDriver(wireMock));
-    appMenu = new MenuBar("MongoDB Query Executor");
-    settingsModal = new Modal();
     mainPage = new MainPage();
+    // assume the app is already open and initial (light) theme is set.
   });
 
+  it("should update background to dark when system theme changes to dark", async () => {
+    // simulate a change in system theme to dark by triggering the IPC event.
+    // We use browser.execute to run code in the renderer context.
+    await browser.execute(() => {
+      // @ts-ignore
+      window.ipcRenderer.emit("set-dark-theme", null, true);
+    });
 
-  it("should use the related background colour for Query results and Query History fields", async () => {
-    // Given the app has already opened and using light theme first (handled by test setup)
-    // And toggle Advanced view: on
-    await themeStub.willReturnLightTheme();
-    
-    await mainPage.toggleAdvancedView();
+    // Allow time for the UI to update (you might adjust the pause as needed)
+    await browser.pause(1000);
 
-    const successfulClickOnSettingMenu = await appMenu.doMenuClickById(
-      "settings"
-    );
-    assert.equal(successfulClickOnSettingMenu, true, "Click on Settings");
+    const queryResultBg = await mainPage.getQueryResultBackgroundColor();
+    const queryHistoryBg = await mainPage.getQueryHistoryItemBackgroundColor();
 
-    await settingsModal.selectTheme("system");
-
-    await settingsModal.clickApplyButton();
-  
-    // When the computer appearance is changed from Light to Dark theme
-    await themeStub.willReturnDarkTheme();
-    await app.themeStubDsl.setTheme("system");
-
-    
-
-    const rootClassList = await browser.$("html").getAttribute("class");
-
-    // assert.include(
-    //   rootClassList,
-    //   "dark-theme",
-    //   "The root element does not have the 'dark-theme' class as expected."
-    // );
-    // assert.notInclude(
-    //   rootClassList,
-    //   "light-theme",
-    //   "The root element incorrectly has the 'light-theme' class when it should not."
-    // );
-
+    // According to our CSS, a dark theme sets --card-background to #1e1e1e,
+    // which in most browsers computes to "rgb(30, 30, 30)".
+    expect(queryResultBg).to.equal("rgb(30, 30, 30)");
+    expect(queryHistoryBg).to.equal("rgb(30, 30, 30)");
   });
 });
