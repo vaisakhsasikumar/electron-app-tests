@@ -34,8 +34,12 @@ export const config: WebdriverIO.Config = {
     externalThemeReal: [
       "./test/specs/external-system-contracts/externalReal.test.ts",
     ],
-    externalReal: ["./test/specs/external-system-contracts/externalReal.ts"],
-    externalStubs: ["./test/specs/external-system-contracts/externalStubs.ts"],
+    externalReal: [
+      "./test/specs/external-system-contracts/externalReal.test.ts",
+    ],
+    externalStubs: [
+      "./test/specs/external-system-contracts/externalStubs.test.ts",
+    ],
     smoke: [
       ["./test/specs/health-checks/*.ts", "./test/specs/smoke-tests/*.ts"],
     ],
