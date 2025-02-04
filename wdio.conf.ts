@@ -31,7 +31,11 @@ export const config: WebdriverIO.Config = {
   suites: {
     acceptance: ["./test/specs/acceptance-tests/*.ts"],
     e2e: ["./test/specs/e2e-tests/*.ts"],
-    external: ["./test/specs/external-system-contracts/*.ts"],
+    externalThemeReal: [
+      "./test/specs/external-system-contracts/externalReal.test.ts",
+    ],
+    externalReal: ["./test/specs/external-system-contracts/externalReal.ts"],
+    externalStubs: ["./test/specs/external-system-contracts/externalStubs.ts"],
     smoke: [
       ["./test/specs/health-checks/*.ts", "./test/specs/smoke-tests/*.ts"],
     ],
