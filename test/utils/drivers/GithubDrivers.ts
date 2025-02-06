@@ -1,4 +1,3 @@
-import nock from "nock";
 import { assert } from "chai";
 import {
   IWireMockRequest,

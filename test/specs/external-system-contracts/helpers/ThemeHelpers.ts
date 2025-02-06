@@ -3,7 +3,7 @@ import { WireMock } from "wiremock-captain";
 import {
   ThemeStubDriver,
   RealThemeDriver,
-} from "../../../utils/drivers/ThemeStubDriver";
+} from "../../../utils/drivers/ThemeDrivers";
 import type { ThemeDriver } from "../../../utils/types";
 
 abstract class BaseThemeDriverTest {

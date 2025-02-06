@@ -5,7 +5,7 @@ import { WireMock } from "wiremock-captain";
 import {
   GithubStubDriver,
   RealGithubDriver,
-} from "../../../utils/drivers/GithubStubDriver";
+} from "../../../utils/drivers/GithubDrivers";
 import type { GithubDriver } from "../../../utils/types";
 
 abstract class BaseGithubDriverTest {
