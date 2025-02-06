@@ -9,16 +9,16 @@ import {
 import type { GithubDriver } from "../../../utils/types";
 
 abstract class BaseGithubDriverTest {
-  public erpDriver: GithubDriver;
+  public githubDriver: GithubDriver;
 
   abstract getVersionUrl(): string;
-  abstract createErpDriver(): GithubDriver;
+  abstract createGithubDriver(): GithubDriver;
 
   abstract setupHigherVersion(): Promise<void>;
   abstract setupLowerVersion(): Promise<void>;
 
   constructor() {
-    this.erpDriver = this.createErpDriver();
+    this.githubDriver = this.createGithubDriver();
   }
 
   public async shouldReturnActualVersion() {
@@ -38,12 +38,12 @@ abstract class BaseGithubDriverTest {
 
   public async shouldReturnHigherVersionThanCurrent(currentAppVersion: string) {
     this.setupHigherVersion();
-    this.erpDriver.shouldHaveHigherVersion(currentAppVersion);
+    this.githubDriver.shouldHaveHigherVersion(currentAppVersion);
   }
 
   public async shouldReturnLowerVersionThanCurrent(currentAppVersion: string) {
     this.setupLowerVersion();
-    this.erpDriver.shouldHaveLowerVersion(currentAppVersion);
+    this.githubDriver.shouldHaveLowerVersion(currentAppVersion);
   }
 }
 
@@ -53,13 +53,13 @@ export class GithubStubDriverTest extends BaseGithubDriverTest {
 
   constructor() {
     super();
-    const erpStub = new WireMock(this.baseUrl);
-    this.driver = new GithubStubDriver(erpStub);
+    const githubStub = new WireMock(this.baseUrl);
+    this.driver = new GithubStubDriver(githubStub);
   }
 
-  public createErpDriver() {
-    const erpStub = new WireMock(this.baseUrl);
-    const driver = new GithubStubDriver(erpStub);
+  public createGithubDriver() {
+    const githubStub = new WireMock(this.baseUrl);
+    const driver = new GithubStubDriver(githubStub);
 
     driver.setup(this.getVersionUrl());
 
@@ -86,7 +86,7 @@ export class RealGithubDriverTest extends BaseGithubDriverTest {
     this.driver = new RealGithubDriver();
   }
 
-  public createErpDriver() {
+  public createGithubDriver() {
     const driver = new RealGithubDriver();
 
     driver.setup(this.getVersionUrl());
