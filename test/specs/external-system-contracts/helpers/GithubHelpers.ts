@@ -37,13 +37,21 @@ abstract class BaseGithubDriverTest {
   }
 
   public async shouldReturnHigherVersionThanCurrent(currentAppVersion: string) {
-    this.setupHigherVersion();
-    this.githubDriver.shouldHaveHigherVersion(currentAppVersion);
+    await this.setupHigherVersion();
+    const version = await this.githubDriver.getCleanVersion();
+    assert.isTrue(
+      semver.gt(version, currentAppVersion),
+      `Expected version ${version} to be greater than ${currentAppVersion}`
+    );
   }
 
   public async shouldReturnLowerVersionThanCurrent(currentAppVersion: string) {
-    this.setupLowerVersion();
-    this.githubDriver.shouldHaveLowerVersion(currentAppVersion);
+    await this.setupLowerVersion();
+    const version = await this.githubDriver.getCleanVersion();
+    assert.isTrue(
+      semver.lt(version, currentAppVersion),
+      `Expected version ${version} to be less than ${currentAppVersion}`
+    );
   }
 }
 
@@ -71,10 +79,10 @@ export class GithubStubDriverTest extends BaseGithubDriverTest {
   }
 
   public async setupHigherVersion() {
-    this.driver.willReturnHigherVersion();
+    await this.driver.willReturnHigherVersion();
   }
   public async setupLowerVersion() {
-    this.driver.willReturnLowerVersion();
+    await this.driver.willReturnLowerVersion();
   }
 }
 
@@ -101,3 +109,5 @@ export class RealGithubDriverTest extends BaseGithubDriverTest {
   public async setupHigherVersion() {}
   public async setupLowerVersion() {}
 }
+
+export { BaseGithubDriverTest };
